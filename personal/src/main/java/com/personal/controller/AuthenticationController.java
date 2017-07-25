@@ -1,9 +1,6 @@
 package com.personal.controller;
 
-import javax.ws.rs.FormParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,8 +27,9 @@ public class AuthenticationController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<Response> loginUser(@FormParam("email") String email, @FormParam("password") String password){
-		Response response = userService.loginUser(email, password);
+	public ResponseEntity<Response> loginUser(@RequestBody User user){
+		//Response response = userService.loginUser(user);
+		Response response = userService.loginUserRepo(user.getEmail(), user.getPassword());
 		return new ResponseEntity<Response>(response,HttpStatus.OK);
 	}
 }

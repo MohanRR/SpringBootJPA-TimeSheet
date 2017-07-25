@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -15,12 +14,17 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.ws.rs.Encoded;
 
 import org.hibernate.validator.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Entity
 @Table(name="user")
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@userId")
 @NamedQueries({
-	@NamedQuery(name="findUserByUsernameAndPassword",query="select u from User u where u.email=:email and password=:password")
+	@NamedQuery(name="findUserByUsernameAndPassword",query="select u from User u where u.email=:email and u.password=:password")
 })
 public class User extends BaseEntity implements Serializable{
 
@@ -30,6 +34,7 @@ public class User extends BaseEntity implements Serializable{
 	private String email;
 	
 	@Basic(optional=false)
+	@Encoded
 	@Column(name="password")
 	private String password;
 	
@@ -46,7 +51,7 @@ public class User extends BaseEntity implements Serializable{
 	private Address address;
 	
 	@Basic(optional=false)
-	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE })
+	@ManyToMany
 	@JoinTable(name = "user_company_association", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "company_id"))
 	private List<Company> companies;
 	

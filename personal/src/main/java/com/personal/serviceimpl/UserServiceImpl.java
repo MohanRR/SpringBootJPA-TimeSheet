@@ -5,7 +5,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.util.Date;
 
-import org.omg.CORBA.UserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +41,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public Response loginUser(String email, String password) {
+	public Response loginUser(User user) {
 		Response response = null;
 		String jwtToken = "";
-		User user = userDAO.getUserByUsernameAndPassword(email, password);
+		 user = userDAO.getUserByUsernameAndPassword(user.getEmail(), user.getPassword());
 			if(user!=null){
-				jwtToken = Jwts.builder().setSubject(email).claim("password", password).setIssuedAt(new Date())
+				jwtToken = Jwts.builder().setSubject(user.getEmail()).claim("password", user.getPassword()).setIssuedAt(new Date())
 			            .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 				user.setAuthToken(jwtToken);
-				response = new Response(user,"Welcome "+user.getFirstName() +" "+ user.getLastName() ,Constants.SUCCESS);
+				response = new Response(user,"Welcome "+user.getFirstName() +" "+ user.getLastName(),Constants.SUCCESS);
 			}else{
 				response = new Response(user,"User was not exist",Constants.CUSTOM_ERROR);
 			}
@@ -110,7 +109,7 @@ public class UserServiceImpl implements UserService {
 	public boolean validate(User user){
 		boolean isUserAlreadyRegistered = false;
 		Response response = findByEmailAndPassword(user.getEmail(), user.getPassword());
-		if(response.getObject()!=null)
+		if(response.getObject()==null)
 			isUserAlreadyRegistered = true;
 		return isUserAlreadyRegistered;
 	}

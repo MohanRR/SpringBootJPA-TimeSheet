@@ -28,7 +28,7 @@ public class UserController {
 	@GetMapping("{id}")
 	public ResponseEntity<Response> findUserById(@PathVariable("id") String id){
 		Response response = null;
-		if(id==null){
+		if(id!=null){
 			response = userService.findUserByUserId(id);
 		}else{
 			response = new Response(id, "User was not found.", Constants.CUSTOM_ERROR);

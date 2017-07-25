@@ -1,5 +1,7 @@
 package com.personal.daoimpl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -18,7 +20,10 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User getUserByUsernameAndPassword(String email, String password) {
-		User user = (User) entityManager.createNamedQuery("findUserByUsernameAndPassword").setParameter("email", email).setParameter("password", password).getSingleResult();
+		User user = null;
+		List<User> users =  entityManager.createNamedQuery("findUserByUsernameAndPassword", User.class).setParameter("email", email).setParameter("password", password).getResultList();
+		if(users!=null && users.size()>0)
+			user = users.get(0);
 		return user;
 	}
 

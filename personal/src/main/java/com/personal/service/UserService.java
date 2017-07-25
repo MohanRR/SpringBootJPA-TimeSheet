@@ -7,7 +7,7 @@ public interface UserService {
 
 	/* Using DAO */
 	public Response createNewUser(User user);
-	public Response loginUser(String email, String password);
+	public Response loginUser(User user);
 	public Response findByEmailAndPassword(String email, String password);
 	public Response saveOrUpdateUser(User user);
 	public Response findUserByUserId(String userId);

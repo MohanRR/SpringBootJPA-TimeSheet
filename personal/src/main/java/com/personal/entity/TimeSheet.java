@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,25 +12,35 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="time_sheet")
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@timeSheetId")
 public class TimeSheet extends BaseEntity implements Serializable{
 
+	@Basic(optional=false)
 	@Column(name="date")
 	private Timestamp date;
-	
-	@Column(name="from")
+
+	@Basic(optional=false)
+	@Column(name="from_time")
 	private String startTime;
 	
-	@Column(name="to")
+	@Basic(optional=false)
+	@Column(name="to_time")
 	private String endTime;
 	
+	@Basic(optional=false)
 	@Column(name="hours")
 	private BigDecimal totalHours;
 	
+	@Basic(optional=false)
 	@Column(name="project")
 	private String projectName;
 	
+	@Basic(optional=false)
 	@Column(name="task")
 	private String task;
 

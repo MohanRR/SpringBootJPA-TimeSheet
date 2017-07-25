@@ -11,8 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="details")
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@detailId")
 public class Detail extends BaseEntity implements Serializable{
 
 	@Column(name="name")
@@ -42,7 +46,7 @@ public class Detail extends BaseEntity implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
-    private Company compnay;
+    private Company company;
 
 	public String getName() {
 		return name;
@@ -108,12 +112,12 @@ public class Detail extends BaseEntity implements Serializable{
 		this.user = user;
 	}
 
-	public Company getCompnay() {
-		return compnay;
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setCompnay(Company compnay) {
-		this.compnay = compnay;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 	
 }

@@ -10,8 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="address")
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@addressId")
 public class Address extends BaseEntity implements Serializable{
 
 	@Column(name="address1")

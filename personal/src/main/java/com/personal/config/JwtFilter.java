@@ -30,11 +30,11 @@ public class JwtFilter extends GenericFilterBean {
 			chain.doFilter(req, res);
 		} else {
 
-			if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+			if (authHeader == null || !authHeader.startsWith("TimeSheet ")) {
 				throw new ServletException("Missing or invalid Authorization header");
 			}
 
-			final String token = authHeader.substring(7);
+			final String token = authHeader.substring(10);
 
 			try {
 				final Claims claims = Jwts.parser().setSigningKey("secretkey").parseClaimsJws(token).getBody();
